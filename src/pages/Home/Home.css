@@ -1,0 +1,152 @@
+.Home {
+      max-width: 2700px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+}
+
+.loadImage {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: calc(10px + 2vmin);
+}
+
+.loadImage img {
+      width: 200px;
+}
+
+.content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 50px;
+}
+
+.person {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      margin-bottom: 20px;
+}
+
+.user {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+.logout {
+      font-size: 18px;
+      background-color: #26668b;
+      width: 40%;
+      margin: 0 auto;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-weight: bold;
+      cursor: pointer;
+}
+
+.weather {
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+}
+
+.person img {
+      width: 70px;
+      margin-right: 15px;
+}
+
+.left {
+      height: 80vh;
+
+}
+
+.add_todo {
+      width: 800px;
+      display: block;
+      padding: 10px 20px;
+      border: solid 2px rgba(128, 128, 128, 0.213);
+      /* margin-bottom: 10px; */
+      border-radius: 5px;
+      font-size: 20px;
+}
+
+.add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+}
+
+.add_todo:focus {
+      outline: none;
+}
+
+.right h2 {
+      font-size: 40px;
+      color: #fff;
+      padding-bottom: 20px;
+}
+
+.todo_items {
+      padding-top: 40px;
+}
+
+.item {
+      background-color: #fff;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      font-size: 20px;
+      margin-bottom: 10px;
+}
+
+.operations {
+      display: flex;
+      gap: 20px;
+      /* justify-content: space-between;
+      align-items: center; */
+}
+
+.delete {
+      color: red;
+      font-size: 22px;
+      cursor: pointer;
+}
+
+.edit {
+      font-size: 22px;
+      color: #4681A3;
+      cursor: pointer;
+}
+
+.add_btn {
+      width: 20%;
+      display: block;
+      padding: 13px 20px;
+      margin: 0 auto;
+      border: none;
+      border-radius: 5px;
+      background-color: #26668b;
+      font-size: 20px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+
+}

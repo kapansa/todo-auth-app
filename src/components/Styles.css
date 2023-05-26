@@ -1,0 +1,44 @@
+.weather_icon {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+}
+
+.weather h2 {
+      font-size: 30px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+}
+
+.input_weather {
+      width: 100%;
+      display: block;
+      padding: 15px 20px;
+      border: solid 2px rgba(128, 128, 128, 0.213);
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 20px;
+}
+
+.input_weather:focus {
+      outline: none;
+}
+
+.get_data {
+      cursor: pointer;
+}
+
+span {
+      font-weight: bold;
+}
+
+.data p {
+      font-size: 20px;
+      padding-bottom: 10px;
+}
+
+.err {
+      color: red;
+      font-size: 18px;
+}

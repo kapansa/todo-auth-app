@@ -1,11 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { auth } from "../../db/firebase";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      await onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigate("/");
+        } else {
+          navigate("/signup");
+        }
+      });
+    };
+    getUser();
+  }, [navigate]);
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        navigate("/", { userCredential });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
   return (
     <div className="Login">
       <div className="Login_middle">
@@ -13,13 +48,27 @@ export const SignUp = () => {
           <img src={Logo} className="logo" alt="Todo_logo" />
           <h2 className="title">Register</h2>
           <div className="form_input">
-            <input type="email" className="input_entry" placeholder="email" />
-            <input
-              type="password"
-              className="input_entry"
-              placeholder="password"
-            />
-            <button className="btn">Sign Up</button>
+            <form onSubmit={HandleSubmit}>
+              <input
+                type="email"
+                className="input_entry"
+                placeholder="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                className="input_entry"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="btn">
+                Sign Up
+              </button>
+            </form>
             <p className="text_size no_account">
               Already have an account?{" "}
               <NavLink className="SignUp_link" to="/Login">
@@ -50,4 +99,4 @@ export const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default React.memo(SignUp);

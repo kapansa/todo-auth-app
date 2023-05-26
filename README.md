@@ -34,8 +34,8 @@ Before running the application, you need to set up the necessary configurations:
 
 Once you have the required configurations, create a `.env` file in the root directory of the project and add the following variables:
 
-1. RAPID_API_KEY=YOUR_API_KEY
-2. RAPID_API_HOST=YOUR_RAPID_API_HOST
+1. REACT_APP_RAPID_API_KEY=YOUR_API_KEY
+2. REACT_APP_RAPID_API_HOST=YOUR_RAPID_API_HOST
 
 ## Usage
 
