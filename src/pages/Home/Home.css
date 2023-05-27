@@ -25,7 +25,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 50px;
+      gap: 30px;
 }
 
 .person {
@@ -46,13 +46,17 @@
       align-items: center;
 }
 
+.user p {
+      font-size: 20px;
+}
+
 .logout {
       font-size: 18px;
       background-color: #26668b;
       width: 40%;
       margin: 0 auto;
       color: #fff;
-      padding: 5px;
+      padding: 10px 5px;
       border-radius: 5px;
       margin-top: 10px;
       font-weight: bold;

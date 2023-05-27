@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Login.css";
 import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
@@ -10,26 +10,33 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 
-export const Login = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
+  const memoizedNavigate = useCallback(
+    (path) => {
+      navigate(path);
+    },
+    [navigate]
+  );
+
   useEffect(() => {
     const getUser = async () => {
       await onAuthStateChanged(auth, (user) => {
         if (user) {
           setLoading(false);
-          navigate("/");
+          memoizedNavigate("/");
         } else {
           setLoading(false);
         }
       });
     };
     getUser();
-  }, [navigate]);
+  }, [memoizedNavigate]);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
@@ -11,30 +11,37 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-export const SignUp = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
+  const memoizedNavigate = useCallback(
+    (path) => {
+      navigate(path);
+    },
+    [navigate]
+  );
+
   useEffect(() => {
     const getUser = async () => {
       await onAuthStateChanged(auth, (user) => {
         if (user) {
-          navigate("/");
+          memoizedNavigate("/");
         } else {
-          navigate("/signup");
+          memoizedNavigate("/signup");
         }
       });
     };
     getUser();
-  }, [navigate]);
+  }, [memoizedNavigate]);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        navigate("/", { userCredential });
+        memoizedNavigate("/", { userCredential });
       })
       .catch((error) => {
         const errorMessage = error.message;
