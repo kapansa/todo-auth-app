@@ -72,6 +72,7 @@ const WeatherData = () => {
             placeholder="Enter city name..."
             onChange={(e) => setCity(e.target.value)}
             value={city}
+            required
           />
           <input
             className="input_weather get_data"

@@ -4,9 +4,14 @@ import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
+// import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { auth } from "../../db/firebase";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { auth, googleProvider, facebookProvider } from "../../db/firebase";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithPopup,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 
@@ -42,13 +47,49 @@ const Login = () => {
     e.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        navigate("/", { userCredential });
+        memoizedNavigate("/", { userCredential });
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log(errorMessage);
       });
   };
+
+  const HandleGoogleSignUp = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        memoizedNavigate("/", { user });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
+
+  const HandleFacebookSignUp = () => {
+    signInWithPopup(auth, facebookProvider)
+      .then((result) => {
+        const user = result.user;
+        memoizedNavigate("/", { user });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
+
+  // const HandleGithubSignUp = () => {
+  //   signInWithPopup(auth, githubProvider)
+  //     .then((result) => {
+  //       const user = result.user;
+  //       memoizedNavigate("/", { user });
+  //     })
+  //     .catch((error) => {
+  //       const errorMessage = error.message;
+  //       console.log(errorMessage);
+  //     });
+  // };
 
   return (
     <div>
@@ -95,12 +136,12 @@ const Login = () => {
               </div>
               <p className="text_size login_with">Login with</p>
               <div className="social_login">
-                <div className="google">
+                <div className="google" onClick={HandleGoogleSignUp}>
                   <p className="text_size">
                     <FcGoogle />
                   </p>
                 </div>
-                <div className="facebook">
+                <div className="facebook" onClick={HandleFacebookSignUp}>
                   <p className="text_size">
                     <FaFacebookF />
                   </p>

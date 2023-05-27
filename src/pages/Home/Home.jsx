@@ -16,11 +16,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-const Home = ({ user, isAuthenticated, tasks }) => {
+const Home = ({ tasks, setTasks }) => {
   const [task, setTask] = useState("");
   const [update, setUpdate] = useState(false);
   const [updateId, setUpdateId] = useState("");
   const [newUpdate, setNewUpdate] = useState("");
+  const [userDetails, setUserDetails] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,7 +37,9 @@ const Home = ({ user, isAuthenticated, tasks }) => {
     const getUser = async () => {
       await onAuthStateChanged(auth, (user) => {
         if (user) {
-          memoizedNavigate("/");
+          setUserDetails(user);
+          setIsAuthenticated(true);
+          // memoizedNavigate("/");
         } else {
           memoizedNavigate("/login");
         }
@@ -60,6 +64,16 @@ const Home = ({ user, isAuthenticated, tasks }) => {
     await updateDoc(taskRef, {
       task: newUpdate,
     });
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === updateId) {
+        return { ...task, task: newUpdate };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+    setTask("");
+    setNewUpdate("");
+    setUpdate(false);
   };
 
   const HandleUpdateData = async (id, oldTask) => {
@@ -71,10 +85,12 @@ const Home = ({ user, isAuthenticated, tasks }) => {
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, "tasks"), {
+      const newTask = {
         task: task,
-        userId: user?.uid,
-      });
+        userId: userDetails?.uid,
+      };
+      const doc = await addDoc(collection(db, "tasks"), newTask);
+      setTasks([...tasks, { ...newTask, id: doc.id }]);
       setTask("");
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -83,6 +99,8 @@ const Home = ({ user, isAuthenticated, tasks }) => {
 
   const HandleDeleteTask = async (id) => {
     await deleteDoc(doc(db, "tasks", `${id}`));
+    const filteredTasks = tasks.filter((task) => task.id !== id);
+    setTasks(filteredTasks);
   };
 
   return (
@@ -96,10 +114,17 @@ const Home = ({ user, isAuthenticated, tasks }) => {
               <div className="person">
                 <div>
                   <div className="user">
-                    <img src={Person} alt="profile" />
                     <div>
-                      <h2>{user?.displayName}</h2>
-                      <p>{user?.email}</p>
+                      {userDetails?.photoURL !== null ? (
+                        <img src={`${userDetails?.photoURL}`} alt="profile" />
+                      ) : (
+                        <img src={Person} alt="profile" />
+                      )}
+                    </div>
+                    <div>
+                      {console.log(userDetails)}
+                      <h2>{userDetails?.displayName}</h2>
+                      <p>{userDetails?.email}</p>
                     </div>
                   </div>
                   <div className="logout">
@@ -116,7 +141,7 @@ const Home = ({ user, isAuthenticated, tasks }) => {
               <div className="todo_input">
                 <div>
                   {update ? (
-                    <form onSubmit={HandleUpdate} className="add">
+                    <form onSubmit={(e) => HandleUpdate(e)} className="add">
                       <input
                         type="text"
                         className="add_todo"
@@ -128,7 +153,7 @@ const Home = ({ user, isAuthenticated, tasks }) => {
                       <input type="submit" className="add_btn" value="Update" />
                     </form>
                   ) : (
-                    <form onSubmit={HandleSubmit} className="add">
+                    <form onSubmit={(e) => HandleSubmit(e)} className="add">
                       <input
                         type="text"
                         className="add_todo"
@@ -143,27 +168,29 @@ const Home = ({ user, isAuthenticated, tasks }) => {
                 </div>
                 {console.log(tasks)}
                 <div className="todo_items">
-                  {tasks.map((task) => (
-                    <div className="item" key={task?.id}>
-                      <p>{task?.data?.task}</p>
-                      <div className="operations">
-                        <div
-                          className="delete"
-                          onClick={() => HandleDeleteTask(task?.id)}
-                        >
-                          <MdDelete />
-                        </div>
-                        <div
-                          className="edit"
-                          onClick={() =>
-                            HandleUpdateData(task?.id, task?.data?.task)
-                          }
-                        >
-                          <BiEdit />
+                  <div className="scroll-view-content">
+                    {tasks.map((task) => (
+                      <div className="item" key={task?.id}>
+                        <p>{task?.task}</p>
+                        <div className="operations">
+                          <div
+                            className="delete"
+                            onClick={() => HandleDeleteTask(task?.id)}
+                          >
+                            <MdDelete />
+                          </div>
+                          <div
+                            className="edit"
+                            onClick={() =>
+                              HandleUpdateData(task?.id, task?.task)
+                            }
+                          >
+                            <BiEdit />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

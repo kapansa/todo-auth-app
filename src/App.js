@@ -6,12 +6,10 @@ import SignUp from "./pages/SignUp/SignUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./db/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 const App = () => {
-  const [userDetails, setUserDetails] = useState({});
   const [tasks, setTasks] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,18 +24,17 @@ const App = () => {
     const checkUser = async () => {
       await onAuthStateChanged(auth, async (user) => {
         if (user) {
-          let newTasts = [];
           const q = query(
             collection(db, "tasks"),
+            orderBy("dateCreated", 'desc'),
             where("userId", "==", `${user?.uid}`)
           );
           const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
-            newTasts.push({ data: doc.data(), id: doc.id });
-          });
-          setTasks(newTasts);
-          setIsAuthenticated(true);
-          setUserDetails(user);
+          const filteredData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setTasks(filteredData);
         }
       });
     };
@@ -51,16 +48,10 @@ const App = () => {
       <Route
         exact
         path="/"
-        element={
-          <Home
-            user={userDetails}
-            tasks={tasks}
-            isAuthenticated={isAuthenticated}
-          />
-        }
+        element={<Home tasks={tasks} setTasks={setTasks} />}
       />
     </Routes>
   );
-}
+};
 
 export default React.memo(App);
