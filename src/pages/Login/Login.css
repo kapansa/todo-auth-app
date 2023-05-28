@@ -136,3 +136,10 @@ body {
 .Line_divide img {
       width: 400px;
 }
+
+.error_message {
+      font-size: 16px;
+      padding: 5px 0 15px;
+      color: red;
+      width: 400px;
+}

@@ -4,9 +4,14 @@ import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
-// import { BsGithub } from "react-icons/bs";
+import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { auth, googleProvider, facebookProvider } from "../../db/firebase";
+import {
+  auth,
+  googleProvider,
+  facebookProvider,
+  githubProvider,
+} from "../../db/firebase";
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -19,6 +24,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const navigate = useNavigate();
 
@@ -47,10 +53,20 @@ const Login = () => {
     e.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        setErrorMessage(null);
         memoizedNavigate("/", { userCredential });
       })
       .catch((error) => {
         const errorMessage = error.message;
+        if (error.code === "auth/user-not-found") {
+          setErrorMessage("User was not found.");
+        } else if (error.code === "auth/wrong-password") {
+          setErrorMessage("The password is incorrect.");
+        } else {
+          setErrorMessage(
+            "an error occurred while logging you in. Please try again."
+          );
+        }
         console.log(errorMessage);
       });
   };
@@ -62,7 +78,15 @@ const Login = () => {
         memoizedNavigate("/", { user });
       })
       .catch((error) => {
-        const errorMessage = error.message;
+        if (error.code === "auth/account-exists-with-different-credential") {
+          setErrorMessage(
+            "An account already exists with the same email address but different credentials"
+          );
+        } else {
+          setErrorMessage(
+            "an error occurred while logging you in. Please try again."
+          );
+        }
         console.log(errorMessage);
       });
   };
@@ -74,22 +98,38 @@ const Login = () => {
         memoizedNavigate("/", { user });
       })
       .catch((error) => {
-        const errorMessage = error.message;
+        if (error.code === "auth/account-exists-with-different-credential") {
+          setErrorMessage(
+            "An account already exists with the same email address but different credentials"
+          );
+        } else {
+          setErrorMessage(
+            "an error occurred while logging you in. Please try again."
+          );
+        }
         console.log(errorMessage);
       });
   };
 
-  // const HandleGithubSignUp = () => {
-  //   signInWithPopup(auth, githubProvider)
-  //     .then((result) => {
-  //       const user = result.user;
-  //       memoizedNavigate("/", { user });
-  //     })
-  //     .catch((error) => {
-  //       const errorMessage = error.message;
-  //       console.log(errorMessage);
-  //     });
-  // };
+  const HandleGithubSignUp = () => {
+    signInWithPopup(auth, githubProvider)
+      .then((result) => {
+        const user = result.user;
+        memoizedNavigate("/", { user });
+      })
+      .catch((error) => {
+        if (error.code === "auth/account-exists-with-different-credential") {
+          setErrorMessage(
+            "An account already exists with the same email address but different credentials"
+          );
+        } else {
+          setErrorMessage(
+            "an error occurred while logging you in. Please try again."
+          );
+        }
+        console.log(errorMessage);
+      });
+  };
 
   return (
     <div>
@@ -119,6 +159,9 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  {errorMessage && (
+                    <p className="error_message">{errorMessage}</p>
+                  )}
                   <button type="submit" className="btn">
                     Login
                   </button>
@@ -144,6 +187,11 @@ const Login = () => {
                 <div className="facebook" onClick={HandleFacebookSignUp}>
                   <p className="text_size">
                     <FaFacebookF />
+                  </p>
+                </div>
+                <div className="facebook" onClick={HandleGithubSignUp}>
+                  <p className="text_size">
+                    <BsGithub />
                   </p>
                 </div>
               </div>

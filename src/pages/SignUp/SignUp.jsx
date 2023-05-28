@@ -3,8 +3,14 @@ import Logo from "../../assets/Logo.png";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
+import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
-import { auth, googleProvider, facebookProvider } from "../../db/firebase";
+import {
+  auth,
+  googleProvider,
+  facebookProvider,
+  githubProvider,
+} from "../../db/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -74,6 +80,18 @@ const SignUp = () => {
       });
   };
 
+  const HandleGithubSignUp = () => {
+    signInWithPopup(auth, githubProvider)
+      .then((result) => {
+        const user = result.user;
+        memoizedNavigate("/", { user });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
+
   return (
     <div className="Login">
       <div className="Login_middle">
@@ -123,6 +141,11 @@ const SignUp = () => {
             <div className="facebook" onClick={HandleFacebookSignUp}>
               <p className="text_size">
                 <FaFacebookF />
+              </p>
+            </div>
+            <div className="facebook" onClick={HandleGithubSignUp}>
+              <p className="text_size">
+                <BsGithub />
               </p>
             </div>
           </div>
