@@ -1,10 +1,10 @@
 # Todo Application
 
-This is a web-based Todo application that allows users to manage their tasks and view the weather forecast for their city. The application provides various authentication options, including email/password, Google, and Facebook. Users can create, read, update, and delete their todo items once authenticated.
+This is a web-based Todo application that allows users to manage their tasks and view the weather forecast for their city. The application provides various authentication options, including email/password, Google, Facebook and Github. Users can create, read, update, and delete their todo items once authenticated.
 
 ## Features
 
-- User authentication with multiple options (email/password, Google, Facebook)
+- User authentication with multiple options (email/password, Google, Facebook, Github)
 - Create, read, update, and delete todo items
 - View weather forecast for the user's city
 
@@ -16,7 +16,7 @@ The application is built using the following technologies:
 - Backend: Firebase
 - Authentication: Firebase Auth
 - Database: Firestore
-- Weather API: Open Weather from Rapid API
+- Weather API: Open Weather API
 
 ## Installation
 
@@ -34,8 +34,7 @@ Before running the application, you need to set up the necessary configurations:
 
 Once you have the required configurations, create a `.env` file in the root directory of the project and add the following variables:
 
-1. REACT_APP_RAPID_API_KEY=YOUR_API_KEY
-2. REACT_APP_RAPID_API_HOST=YOUR_RAPID_API_HOST
+1. REACT_APP_WEATHER_API
 
 ## Usage
 
