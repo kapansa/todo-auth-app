@@ -6,7 +6,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./db/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -26,8 +26,8 @@ const App = () => {
         if (user) {
           const q = query(
             collection(db, "tasks"),
-            orderBy("dateCreated", 'desc'),
-            where("userId", "==", `${user?.uid}`)
+            where("userId", "==", `${user?.uid}`),
+            orderBy("task", "desc")
           );
           const querySnapshot = await getDocs(q);
           const filteredData = querySnapshot.docs.map((doc) => ({

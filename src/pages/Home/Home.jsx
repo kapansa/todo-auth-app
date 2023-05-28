@@ -90,7 +90,7 @@ const Home = ({ tasks, setTasks }) => {
         userId: userDetails?.uid,
       };
       const doc = await addDoc(collection(db, "tasks"), newTask);
-      setTasks([...tasks, { ...newTask, id: doc.id }]);
+      setTasks([{ ...newTask, id: doc.id }, ...tasks ]);
       setTask("");
     } catch (e) {
       console.error("Error adding document: ", e);
