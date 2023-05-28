@@ -11,7 +11,7 @@ const WeatherData = () => {
     const cityOld = JSON.parse(localStorage.getItem("city"));
     const getOldCity = async () => {
       if (cityOld !== null) {
-        const urlAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${cityOld?.lat}&lon=${cityOld?.lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`;
+        const urlAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${cityOld?.lat}&lon=${cityOld?.lon}&appid=5c3b913e3c5402669d0f318eab8d2868&units=metric`;
         const responseData = await axios.get(urlAPI);
         console.log(responseData.data);
         setData(responseData.data);
@@ -25,7 +25,7 @@ const WeatherData = () => {
 
     const fetchData = async () => {
       try {
-        const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${process.env.REACT_APP_WEATHER_API}`;
+        const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=5c3b913e3c5402669d0f318eab8d2868}`;
         const response = await axios.get(url);
 
         const geoData = {
