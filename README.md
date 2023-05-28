@@ -45,6 +45,10 @@ To start the application, run the following command:
 
 This will start the development server, and you can access the application in your browser at `http://localhost:3000`.
 
+## Live Site
+
+To check out the live site [Click Here](https://todo-auth-app.netlify.app/).
+
 ## Contributing
 
 Contributions are welcome! If you find any bugs or want to enhance the application, feel free to open an issue or submit a pull request.
