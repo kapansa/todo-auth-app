@@ -15,7 +15,8 @@ import {
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signInWithPopup,
+  // signInWithPopup,
+  signInWithRedirect
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -72,7 +73,7 @@ const Login = () => {
   };
 
   const HandleGoogleSignUp = () => {
-    signInWithPopup(auth, googleProvider)
+    signInWithRedirect(auth, googleProvider)
       .then((result) => {
         const user = result.user;
         memoizedNavigate("/", { user });
@@ -92,7 +93,7 @@ const Login = () => {
   };
 
   const HandleFacebookSignUp = () => {
-    signInWithPopup(auth, facebookProvider)
+    signInWithRedirect(auth, facebookProvider)
       .then((result) => {
         const user = result.user;
         memoizedNavigate("/", { user });
@@ -112,7 +113,7 @@ const Login = () => {
   };
 
   const HandleGithubSignUp = () => {
-    signInWithPopup(auth, githubProvider)
+    signInWithRedirect(auth, githubProvider)
       .then((result) => {
         const user = result.user;
         memoizedNavigate("/", { user });

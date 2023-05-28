@@ -51,6 +51,13 @@ const Home = ({ tasks, setTasks }) => {
   const HandleSignOut = async () => {
     await signOut(auth)
       .then(() => {
+        setTask("");
+        setUpdate(false);
+        setUpdateId("");
+        setNewUpdate("");
+        setUserDetails({});
+        setIsAuthenticated(false);
+        setTasks([]);
         memoizedNavigate("/login");
       })
       .catch((error) => {
@@ -90,7 +97,7 @@ const Home = ({ tasks, setTasks }) => {
         userId: userDetails?.uid,
       };
       const doc = await addDoc(collection(db, "tasks"), newTask);
-      setTasks([{ ...newTask, id: doc.id }, ...tasks ]);
+      setTasks([{ ...newTask, id: doc.id }, ...tasks]);
       setTask("");
     } catch (e) {
       console.error("Error adding document: ", e);

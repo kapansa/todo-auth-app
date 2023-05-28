@@ -6,12 +6,12 @@ import { FacebookAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBZrzdwwC_z-N1wLD5v8_6mJDAJJRuH8c8",
-  authDomain: "todo-auth-app-9f41d.firebaseapp.com",
-  projectId: "todo-auth-app-9f41d",
-  storageBucket: "todo-auth-app-9f41d.appspot.com",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: "656519623429",
-  appId: "1:656519623429:web:55c03fce1be40c02adbd6c"
+  appId: process.env.REACT_APP_APP_ID
 };
 
 // Initialize Firebase
