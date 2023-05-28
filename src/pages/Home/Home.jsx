@@ -129,7 +129,6 @@ const Home = ({ tasks, setTasks }) => {
                       )}
                     </div>
                     <div>
-                      {console.log(userDetails)}
                       <h2>{userDetails?.displayName}</h2>
                       <p>{userDetails?.email}</p>
                     </div>

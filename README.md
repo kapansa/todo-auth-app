@@ -35,6 +35,11 @@ Before running the application, you need to set up the necessary configurations:
 Once you have the required configurations, create a `.env` file in the root directory of the project and add the following variables:
 
 1. REACT_APP_WEATHER_API
+2. REACT_APP_API_KEY
+3. REACT_APP_PROJECT_ID
+4. REACT_APP_APP_ID
+5. REACT_APP_STORAGE_BUCKET
+6. REACT_APP_AUTH_DOMAIN
 
 ## Usage
 
