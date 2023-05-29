@@ -62,7 +62,6 @@ const WeatherData = () => {
 
   return (
     <div className="weather">
-      {console.log(data)}
       <div className="weather_data">
         <form onSubmit={HandleClick}>
           <input

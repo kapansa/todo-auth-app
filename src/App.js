@@ -3,10 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
+import UserEdit from "./pages/UserEdit/UserEdit";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./db/firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -45,6 +47,8 @@ const App = () => {
     <Routes>
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/signup" element={<SignUp />} />
+      <Route exact path="/user/edit" element={<UserEdit />} />
+      <Route exact path="/forgotpassword" element={<ForgotPassword />} />
       <Route
         exact
         path="/"

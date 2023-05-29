@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./Home.css";
-import Person from "../../assets/person.avif";
-import { MdDelete } from "react-icons/md";
-import { BiEdit } from "react-icons/bi";
 import WeatherData from "../../components/WeatherData";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../db/firebase";
@@ -15,6 +12,9 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import ShowTasks from "../../components/ShowTasks";
+import AddTask from "../../components/AddTask";
+import UserDetails from "../../components/UserDetails";
 
 const Home = ({ tasks, setTasks }) => {
   const [task, setTask] = useState("");
@@ -127,86 +127,29 @@ const Home = ({ tasks, setTasks }) => {
         <div className="Home">
           <div className="content">
             <div className="left">
-              <div className="person">
-                <div>
-                  <div className="user">
-                    <div>
-                      {userDetails?.photoURL !== null ? (
-                        <img src={`${userDetails?.photoURL}`} alt="profile" />
-                      ) : (
-                        <img src={Person} alt="profile" />
-                      )}
-                    </div>
-                    <div>
-                      <h2>{userDetails?.displayName}</h2>
-                      <p>{userDetails?.email}</p>
-                    </div>
-                  </div>
-                  <div className="logout">
-                    <p onClick={HandleSignOut}>Logout</p>
-                  </div>
-                </div>
-              </div>
-              <div className="weather">
-                <WeatherData />
-              </div>
+              <UserDetails
+                userDetails={userDetails}
+                HandleSignOut={HandleSignOut}
+              />
+              <WeatherData />
             </div>
             <div className="right">
               <h2>What Activities do you have today?</h2>
               <div className="todo_input">
-                <div>
-                  {update ? (
-                    <form onSubmit={HandleUpdate} className="add">
-                      <input
-                        type="text"
-                        className="add_todo"
-                        placeholder="What is your next task..."
-                        onChange={(e) => setNewUpdate(e.target.value)}
-                        value={newUpdate}
-                        required
-                      />
-                      <input type="submit" className="add_btn" value="Update" />
-                    </form>
-                  ) : (
-                    <form onSubmit={HandleSubmit} className="add">
-                      <input
-                        type="text"
-                        className="add_todo"
-                        placeholder="What is your next task..."
-                        onChange={(e) => setTask(e.target.value)}
-                        value={task}
-                        required
-                      />
-                      <input type="submit" className="add_btn" value="Add" />
-                    </form>
-                  )}
-                </div>
-                {console.log(tasks)}
-                <div className="todo_items">
-                  <div className="scroll-view-content">
-                    {tasks.map((task) => (
-                      <div className="item" key={task?.id}>
-                        <p>{task?.task}</p>
-                        <div className="operations">
-                          <div
-                            className="delete"
-                            onClick={() => HandleDeleteTask(task?.id)}
-                          >
-                            <MdDelete />
-                          </div>
-                          <div
-                            className="edit"
-                            onClick={() =>
-                              HandleUpdateData(task?.id, task?.task)
-                            }
-                          >
-                            <BiEdit />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <AddTask
+                  update={update}
+                  HandleUpdate={HandleUpdate}
+                  newUpdate={newUpdate}
+                  setNewUpdate={setNewUpdate}
+                  HandleSubmit={HandleSubmit}
+                  setTask={setTask}
+                  task={task}
+                />
+                <ShowTasks
+                  tasks={tasks}
+                  HandleDeleteTask={HandleDeleteTask}
+                  HandleUpdateData={HandleUpdateData}
+                />
               </div>
             </div>
           </div>

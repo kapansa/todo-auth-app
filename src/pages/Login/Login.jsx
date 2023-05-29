@@ -16,7 +16,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   // signInWithPopup,
-  signInWithRedirect
+  signInWithRedirect,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -160,6 +160,11 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <p className="text_size forgot_password">
+                    <NavLink className="SignUp_link" to="/forgotpassword">
+                      Forgot Password?
+                    </NavLink>
+                  </p>
                   {errorMessage && (
                     <p className="error_message">{errorMessage}</p>
                   )}
