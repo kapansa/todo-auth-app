@@ -25,23 +25,30 @@ const WeatherData = () => {
 
     const fetchData = async () => {
       try {
-        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${process.env.REACT_APP_WEATHER_API}`;
-        const response = await axios.get(url);
+        if (city.trim() === "") {
+          setErr(true);
+          setTimeout(() => {
+            setErr(false);
+          }, 2000);
+        } else {
+          const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${process.env.REACT_APP_WEATHER_API}`;
+          const response = await axios.get(url);
 
-        const geoData = {
-          lon: response?.data[0]?.lon,
-          lat: response?.data[0]?.lat,
-        };
+          const geoData = {
+            lon: response?.data[0]?.lon,
+            lat: response?.data[0]?.lat,
+          };
 
-        localStorage.setItem("city", JSON.stringify(geoData));
+          localStorage.setItem("city", JSON.stringify(geoData));
 
-        // console.log("lon", " => ", geoData?.lon, "lan", " => ", geoData?.lat);
+          // console.log("lon", " => ", geoData?.lon, "lan", " => ", geoData?.lat);
 
-        const urlAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${geoData?.lat}&lon=${geoData?.lon}&appid=5c3b913e3c5402669d0f318eab8d2868&units=metric`;
-        const responseData = await axios.get(urlAPI);
-        // console.log(responseData.data);
-        setData(responseData.data);
-        setCity("");
+          const urlAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${geoData?.lat}&lon=${geoData?.lon}&appid=5c3b913e3c5402669d0f318eab8d2868&units=metric`;
+          const responseData = await axios.get(urlAPI);
+          // console.log(responseData.data);
+          setData(responseData.data);
+          setCity("");
+        }
       } catch (error) {
         setErr(true);
         setTimeout(() => {
@@ -50,15 +57,7 @@ const WeatherData = () => {
         console.error(error.message);
       }
     };
-
-    if (city === "") {
-      setErr(true);
-      setTimeout(() => {
-        setErr(false);
-      }, 2000);
-    } else {
-      fetchData();
-    }
+    fetchData();
   };
 
   return (

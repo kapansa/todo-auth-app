@@ -48,7 +48,7 @@ const Home = ({ tasks, setTasks }) => {
     getUser();
   }, [memoizedNavigate]);
 
-  const HandleSignOut = async () => {
+  const HandleSignOut = useCallback(async () => {
     await signOut(auth)
       .then(() => {
         setTask("");
@@ -63,52 +63,61 @@ const Home = ({ tasks, setTasks }) => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, [setTasks, memoizedNavigate]);
 
-  const HandleUpdate = async (e) => {
-    e.preventDefault();
-    const taskRef = doc(db, "tasks", `${updateId}`);
-    await updateDoc(taskRef, {
-      task: newUpdate,
-    });
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === updateId) {
-        return { ...task, task: newUpdate };
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
-    setTask("");
-    setNewUpdate("");
-    setUpdate(false);
-  };
+  const HandleUpdate = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const taskRef = doc(db, "tasks", `${updateId}`);
+      await updateDoc(taskRef, {
+        task: newUpdate,
+      });
+      const updatedTasks = tasks.map((task) => {
+        if (task.id === updateId) {
+          return { ...task, task: newUpdate };
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+      setTask("");
+      setNewUpdate("");
+      setUpdate(false);
+    },
+    [newUpdate, tasks, setTasks, updateId]
+  );
 
-  const HandleUpdateData = async (id, oldTask) => {
+  const HandleUpdateData = useCallback(async (id, oldTask) => {
     setUpdate(true);
     setUpdateId(id);
     setNewUpdate(oldTask);
-  };
+  }, []);
 
-  const HandleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const newTask = {
-        task: task,
-        userId: userDetails?.uid,
-      };
-      const doc = await addDoc(collection(db, "tasks"), newTask);
-      setTasks([{ ...newTask, id: doc.id }, ...tasks]);
-      setTask("");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
+  const HandleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const newTask = {
+          task: task,
+          userId: userDetails?.uid,
+        };
+        const doc = await addDoc(collection(db, "tasks"), newTask);
+        setTasks([{ ...newTask, id: doc.id }, ...tasks]);
+        setTask("");
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    },
+    [tasks, setTasks, task, userDetails?.uid]
+  );
 
-  const HandleDeleteTask = async (id) => {
-    await deleteDoc(doc(db, "tasks", `${id}`));
-    const filteredTasks = tasks.filter((task) => task.id !== id);
-    setTasks(filteredTasks);
-  };
+  const HandleDeleteTask = useCallback(
+    async (id) => {
+      await deleteDoc(doc(db, "tasks", `${id}`));
+      const filteredTasks = tasks.filter((task) => task.id !== id);
+      setTasks(filteredTasks);
+    },
+    [setTasks, tasks]
+  );
 
   return (
     <div>
@@ -147,7 +156,7 @@ const Home = ({ tasks, setTasks }) => {
               <div className="todo_input">
                 <div>
                   {update ? (
-                    <form onSubmit={(e) => HandleUpdate(e)} className="add">
+                    <form onSubmit={HandleUpdate} className="add">
                       <input
                         type="text"
                         className="add_todo"
@@ -159,7 +168,7 @@ const Home = ({ tasks, setTasks }) => {
                       <input type="submit" className="add_btn" value="Update" />
                     </form>
                   ) : (
-                    <form onSubmit={(e) => HandleSubmit(e)} className="add">
+                    <form onSubmit={HandleSubmit} className="add">
                       <input
                         type="text"
                         className="add_todo"
