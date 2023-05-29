@@ -99,6 +99,7 @@ const Home = ({ tasks, setTasks }) => {
         const newTask = {
           task: task,
           userId: userDetails?.uid,
+          createdAt: new Date()
         };
         const doc = await addDoc(collection(db, "tasks"), newTask);
         setTasks([{ ...newTask, id: doc.id }, ...tasks]);

@@ -29,7 +29,7 @@ const App = () => {
           const q = query(
             collection(db, "tasks"),
             where("userId", "==", `${user?.uid}`),
-            orderBy("task", "desc")
+            orderBy("createdAt", "desc")
           );
           const querySnapshot = await getDocs(q);
           const filteredData = querySnapshot.docs.map((doc) => ({

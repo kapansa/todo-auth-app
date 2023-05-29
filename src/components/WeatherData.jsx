@@ -62,6 +62,7 @@ const WeatherData = () => {
 
   return (
     <div className="weather">
+    <h2>Weather Forecast</h2>
       <div className="weather_data">
         <form onSubmit={HandleClick}>
           <input
@@ -79,7 +80,6 @@ const WeatherData = () => {
           />
         </form>
       </div>
-      <h2>Weather Forecast</h2>
       {err && <p className="err">Please enter a valid city!</p>}
       {data?.length === 0 ? (
         ""
