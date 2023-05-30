@@ -20,11 +20,14 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import IntroText from "../../components/IntroText";
 import Todo from "../../assets/todo.svg";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -98,6 +101,10 @@ const SignUp = () => {
       });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div>
       {loading ? (
@@ -123,14 +130,26 @@ const SignUp = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  <input
-                    type="password"
-                    className="input_entry"
-                    placeholder="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <div className="password_show">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="input_entry"
+                      placeholder="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <div
+                      className="eye_icon"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </div>
+                  </div>
                   <button type="submit" className="btn">
                     Sign Up
                   </button>

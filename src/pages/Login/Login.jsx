@@ -22,12 +22,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import IntroText from "../../components/IntroText";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -134,6 +137,10 @@ const Login = () => {
       });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div>
       {loading ? (
@@ -159,14 +166,26 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  <input
-                    type="password"
-                    className="input_entry"
-                    placeholder="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <div className="password_show">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="input_entry"
+                      placeholder="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <div
+                      className="eye_icon"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </div>
+                  </div>
                   <p className="text_size forgot_password">
                     <NavLink className="SignUp_link" to="/forgotpassword">
                       Forgot Password?
