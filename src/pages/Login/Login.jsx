@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./Login.css";
 import Logo from "../../assets/Logo.png";
+import Todo from "../../assets/todo.svg";
 import Or from "../../assets/or.png";
 import { NavLink } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
@@ -20,6 +21,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import IntroText from "../../components/IntroText";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -139,6 +141,11 @@ const Login = () => {
       ) : (
         <div className="Login">
           <div className="Login_middle">
+            <IntroText
+              imgLogo={Todo}
+              text="Login to access the ultimate Todo App"
+              subtitle="To ensure the security of our users' data, our app allows users to login using various means such as email and password, Facebook, Google, and Github account. This provides users with multiple options to choose from and ensures that their data is protected."
+            />
             <div className="login_in">
               <img src={Logo} className="logo" alt="Todo_logo" />
               <h2 className="title">Login</h2>

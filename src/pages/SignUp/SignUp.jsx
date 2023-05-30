@@ -18,6 +18,8 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import IntroText from "../../components/IntroText";
+import Todo from "../../assets/todo.svg";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -103,6 +105,11 @@ const SignUp = () => {
       ) : (
         <div className="Login">
           <div className="Login_middle">
+            <IntroText
+              imgLogo={Todo}
+              text="Register for the ultimate Todo App"
+              subtitle="our web-based todo app is the ultimate task management tool. With the ability to organize your tasks in one place, get up-to-date weather data for your city and other cities, and login using various means, our app is designed to make your life easier."
+            />
             <div className="login_in">
               <img src={Logo} className="logo" alt="Todo_logo" />
               <h2 className="title">Register</h2>
