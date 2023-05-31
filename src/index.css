@@ -1,8 +1,61 @@
-*{
-  font-family: 'Nunito', sans-serif;
+* {
+  font-family: "Nunito", sans-serif;
 }
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 40px;
+}
+
+/* Laptop */
+@media (max-width: 1280px) {
+  /* CSS rules for laptop */
+  .content {
+    flex-wrap: wrap !important;
+  }
+
+  .left {
+    flex-basis: 100%;
+  }
+
+  .right {
+    flex-basis: 100%;
+  }
+
+  .profile_edit {
+    flex-wrap: wrap;
+  }
+
+  .add {
+    flex-wrap: wrap;
+  }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  /* CSS rules for laptop */
+}
+
+/* Phone - Landscape mode */
+@media (max-width: 768px) {
+  /* CSS rules for phone - landscape mode */
+  .text_area {
+    display: none;
+    width: 100%;
+  }
+
+  .login_in {
+    padding: 20px 30px !important;
+  }
+
+  .input_entry {
+    width: 100% !important;
+  }
+}
+
+/* Tablet - Landscape mode */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* CSS rules for tablet - landscape mode */
 }
